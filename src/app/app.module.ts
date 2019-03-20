@@ -10,6 +10,7 @@ import { ToastrModule } from 'ngx-toastr';
 
 import { AdminGuard } from './services/admin.guard';
 import { UsuarioService } from './services/usuario.service';
+import { PedidoService } from './services/pedido.service';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './component/login/login.component';
@@ -36,6 +37,7 @@ import { PedidoComponent } from './component/pedido/pedido.component';
   providers: [
     appRoutingProviders,
     UsuarioService,
+    PedidoService,
     AdminGuard,
   ],
   bootstrap: [AppComponent]
