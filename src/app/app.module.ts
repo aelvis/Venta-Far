@@ -17,13 +17,15 @@ import { LoginComponent } from './component/login/login.component';
 import { InicioComponent} from './component/inicio/inicio.component';
 import { NavAdminComponent} from './component/partial/partial.component';
 import { PedidoComponent } from './component/pedido/pedido.component';
+import { PedidoEditarComponent } from './component/pedido-editar/pedido-editar.component';
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     InicioComponent,
     NavAdminComponent,
-    PedidoComponent
+    PedidoComponent,
+    PedidoEditarComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,115 @@
+<nav-component></nav-component>
+<br>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12" style="display: flex;justify-content: center;">
+			<button class="btn btn-danger btn-block font-weight-normal text-center" style="color: white;" (click)="mandarCaja()">Mandar a Caja</button><br><br><br>
+		</div>
+		<div class="col-md-12">
+		<br><br>
+		</div>
+		<div class="col-md-6">
+			<h1 class="h2 mb-3 font-weight-normal text-center" style="color: red"><u>Lista de Pedido</u></h1>
+			<table class="table" *ngIf="introduccion == true">
+			  <thead class="thead-dark">
+			    <tr>
+			      <th scope="col">#</th>
+			      <th scope="col">Producto</th>
+			      <th scope="col">Unidad</th>
+			      <th scope="col">Cantidad</th>
+			      <th scope="col">Pagar</th>
+			      <th scope="col">Eliminar</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			    <tr *ngFor="let pedi of pedido; index as i">
+			      <th scope="row">{{i+1}}</th>
+			      <td>{{pedi.nombre_producto}}</td>
+			      <td>{{pedi.nombre_unidad}}</td>
+			      <td><input type="text" value="{{pedi.cantidad}}" class="form-control" #cantidad_actualizar placeholder="Cantidad" (keyup.enter)="actualizarPedidoAlCarrito(pedi.id,cantidad_actualizar.value,pedi.precio_producto, pedi.representacion, pedi.id_producto_sucursal)"></td>
+			      <td>S/. {{ pedi.precio}}</td>
+			      <td><button class="btn btn-warning" (click)="eliminarPedidoCarritoCompras(pedi.id)">Eliminar</button></td>
+			    </tr>
+			    <tr>
+			    	<td></td>
+			    	<td></td>
+			    	<td></td>
+			    	<td class="table-danger">Total</td>
+			    	<td>S/. {{ getSum() }}</td>
+			    	<td></td>
+			    </tr>
+			  </tbody>
+			</table>
+
+			<button class="btn btn-info" type="button" *ngIf="introduccion == false">
+			  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+			  Cargando...
+			</button>
+		</div>
+		<div class="col-md-6">
+			<h1 class="h2 mb-3 font-weight-normal text-center" style="color: red"><u>Agregar Cliente</u></h1>
+			<div class="row">
+				<div class="col-md-6">
+				  <div class="form-group">
+				    <label for="inputPassword2">DNI o RUC</label>
+				    <input type="text" value="{{usuario?.codigo}}" class="form-control" #dni_ruc (keydown.enter)="actualizarPedidoUsuarioAlCarrito(dni_ruc.value)">
+				  </div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+					    <label for="inputPassword2">NOMBRE O NOMBRE COMERCIAL</label>
+					    <input type="text" value="{{usuario?.nombre}}" class="form-control" disabled>
+					</div>
+				</div>
+				<div class="col-md-12">
+					<div class="form-group">
+					    <label for="inputPassword2">DIRECCIÓN</label>
+					    <input type="text" value="{{usuario?.direccion}}" class="form-control" #direccion_actualizar (keydown.enter)="actualizarPedidoUsuarioAlCarritoDireccion(direccion_actualizar.value)">
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12"><br><br></div>
+			</div>
+			<h1 class="h2 mb-3 font-weight-normal text-center" style="color: red"><u>Buscar Producto</u></h1>
+			<div class="row">
+				<div class="col-md-6">
+				  <div class="form-group">
+				    <label for="inputPassword2" class="sr-only">Nombre</label>
+				    <input type="text" class="form-control" #nombre_buscar placeholder="Nombre Producto" (keydown.enter)="buscarNombre(nombre_buscar.value)">
+				  </div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+					    <label for="inputPassword2" class="sr-only">Código</label>
+					    <input type="text" class="form-control" #codigo_buscar placeholder="Producto Código de Barras" (keydown.enter)="buscarCodigo(codigo_buscar.value)">
+					</div>
+				</div>
+			</div>
+			<table class="table" *ngIf="tabla_principal == true">
+			  <thead class="thead-dark">
+			    <tr>
+			      <th scope="col">#</th>
+			      <th scope="col">Nombre</th>
+			      <th scope="col">Precio</th>
+			      <th scope="col">Cantidad</th>
+			      <th scope="col">Unidad</th>
+			      <th scope="col">Representación</th>
+			      <th scope="col">Stock</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			    <tr *ngFor="let pedi_bus of pedido_buscado; index as i">
+			      <th scope="row">{{i+1}}</th>
+			      <td>{{pedi_bus.nombre}}</td>
+			      <td>S/. {{pedi_bus.precio}}</td>
+			      <td><input type="text" class="form-control" #cantidad_agregar placeholder="Cantidad" (keyup.enter)="agregarPedidoAlCarrito(pedi_bus.id_producto_unidad,cantidad_agregar.value, pedi_bus.representacion, pedi_bus.precio, pedi_bus.producto_id,pedi_bus.id_producto_sucursal)"></td>
+			      <td>{{pedi_bus.nombre_unidad}}</td>
+			      <td>{{pedi_bus.representacion}}</td>
+			      <td>{{pedi_bus.stock}}</td>
+			    </tr>
+			  </tbody>
+			</table>
+		</div>
+	</div>
+</div>

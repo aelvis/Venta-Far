@@ -1,3 +1,15 @@
 <nav-component></nav-component>
 <br>
-<h1 class="h5 mb-3 font-weight-normal text-center" style="color: red">Lista de Tickets</h1>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12" style="display: flex;justify-content: center;">
+			<button class="btn btn-warning font-weight-normal text-center" style="color: white;" (click)="agregarTicket()">+ Agregar Tickets</button>
+		</div>
+		<div class="col-md-12"><br></div>
+		<div *ngFor="let up of ticket" class="col-md-3">
+			<p style="background: #17a2b8; color: white; padding: 15px" class="text-center" [routerLink]="['/pedido-editar', up.id]">
+			  {{up.numero}}<br> <span class="badge badge-light">{{up.date}}</span>
+			</p>
+		</div>
+	</div>
+</div>

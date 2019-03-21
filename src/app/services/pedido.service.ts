@@ -33,6 +33,15 @@ export class PedidoService{
 		});
 		return this._http.post(this.url+'/pedidos/pedido/registrarPedido', params, {headers:headers});
 	}
+	obtenerPedidosClientePagar(id_pedido){
+		let params = new HttpParams();
+			params = params.append('id_pedido', id_pedido);
+		let headers = new HttpHeaders({
+			'Content-Type':'application/json',
+			'Authorization': this._usuSer.getToken()
+		});
+		return this._http.post(this.url+'/pedidos/pedido/obtenerPedidosClientePagar', params, {headers:headers});
+	}
 	buscarPedidoNombre(nombre){
 		let params = new HttpParams();
 			params = params.append('buscar_nombre', nombre);
@@ -51,28 +60,20 @@ export class PedidoService{
 		});
 		return this._http.post(this.url+'/pedidos/pedido/buscarProductoPedidoCodigo', params, {headers:headers});
 	}
-	agregarPedido(id_producto_unidad,cantidad,representacion,precio,id_producto,id_pedido){
+	agregarPedido(producto_unidad_id,cantidad,representacion,precio,id_producto,ticket,id_producto_sucursal){
 		let params = new HttpParams();
-			params = params.append('unidad_pedido_id', id_producto_unidad);
+			params = params.append('producto_unidad_id', producto_unidad_id);
 			params = params.append('id_producto', id_producto);
 			params = params.append('cantidad', cantidad);
 			params = params.append('representacion', representacion);
 			params = params.append('precio', precio);
-			params = params.append('ticket', id_pedido);
+			params = params.append('ticket', ticket);
+			params = params.append('producto_sucursal', id_producto_sucursal);
 		let headers = new HttpHeaders({
 			'Content-Type':'application/json',
 			'Authorization': this._usuSer.getToken()
 		});
 		return this._http.post(this.url+'/pedidos/pedido/agregarPedido', params, {headers:headers});
-	}
-	obtenerPedidosClientePagar(id_pedido){
-		let params = new HttpParams();
-			params = params.append('id_pedido', id_pedido);
-		let headers = new HttpHeaders({
-			'Content-Type':'application/json',
-			'Authorization': this._usuSer.getToken()
-		});
-		return this._http.post(this.url+'/pedidos/pedido/obtenerPedidosClientePagar', params, {headers:headers});
 	}
 	eliminarPedidoTick(id_pedido){
 		let params = new HttpParams();
@@ -83,17 +84,46 @@ export class PedidoService{
 		});
 		return this._http.post(this.url+'/pedidos/pedido/eliminarPedidosClientePagar', params, {headers:headers});
 	}
-	actualizarPedidoTick(id_pedido,cantidad,precio,representacion,id_producto){
+	actualizarPedidoTick(id_pedido,cantidad,precio,representacion,producto_sucursal){
 		let params = new HttpParams();
 			params = params.append('id_pedido', id_pedido);
 			params = params.append('cantidad', cantidad);
 			params = params.append('precio', precio);
 			params = params.append('representacion', representacion);
-			params = params.append('id_producto', id_producto);
+			params = params.append('producto_sucursal', producto_sucursal);
 		let headers = new HttpHeaders({
 			'Content-Type':'application/json',
 			'Authorization': this._usuSer.getToken()
 		});
 		return this._http.post(this.url+'/pedidos/pedido/actualizarPedidosClientePagar', params, {headers:headers});
+	}
+	actualizarUsuarioTicket(dni_ruc,id_ticket){
+		let params = new HttpParams();
+			params = params.append('dni_ruc', dni_ruc);
+			params = params.append('id_ticket', id_ticket);
+		let headers = new HttpHeaders({
+			'Content-Type':'application/json',
+			'Authorization': this._usuSer.getToken()
+		});
+		return this._http.post(this.url+'/pedidos/pedido/agregarUsuarioTicket', params, {headers:headers});
+	}
+	actualizarUsuarioTicketDireccion(direccion,id_ticket){
+		let params = new HttpParams();
+			params = params.append('direccion', direccion);
+			params = params.append('id_ticket', id_ticket);
+		let headers = new HttpHeaders({
+			'Content-Type':'application/json',
+			'Authorization': this._usuSer.getToken()
+		});
+		return this._http.post(this.url+'/pedidos/pedido/agregarUsuarioTicketDireccion', params, {headers:headers});
+	}
+	mandarCaja(id_ticket){
+		let params = new HttpParams();
+			params = params.append('id_ticket', id_ticket);
+		let headers = new HttpHeaders({
+			'Content-Type':'application/json',
+			'Authorization': this._usuSer.getToken()
+		});
+		return this._http.post(this.url+'/pedidos/pedido/mandarCaja', params, {headers:headers});
 	}
 }

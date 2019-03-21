@@ -4,7 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { InicioComponent} from './component/inicio/inicio.component';
 import { LoginComponent} from './component/login/login.component';
 import { PedidoComponent } from './component/pedido/pedido.component';
-
+import { PedidoEditarComponent } from './component/pedido-editar/pedido-editar.component';
 import { AdminGuard } from './services/admin.guard';
 
 const appRoutes: Routes = [
@@ -13,6 +13,7 @@ const appRoutes: Routes = [
 	{path: 'login', component: LoginComponent},
 	{path: 'inicio', component: InicioComponent, canActivate: [AdminGuard]},
 	{path: 'pedido', component: PedidoComponent, canActivate: [AdminGuard]},
+	{path: 'pedido-editar/:id_pedido', component: PedidoEditarComponent, canActivate: [AdminGuard]},
 	{path: '**', component: LoginComponent},
 ];
 

@@ -14,7 +14,7 @@ export class PedidoComponent implements OnInit {
 
   }
   ngOnInit() {
-  	this.obtenerPedido();
+  	this.obtenerTicket();
   }
   showSuccess(titulo,mensaje) {
     this.toastr.success(mensaje, titulo);
@@ -22,7 +22,7 @@ export class PedidoComponent implements OnInit {
   showError(titulo,mensaje) {
     this.toastr.error(mensaje, titulo);
   }
-  obtenerPedido(){
+  obtenerTicket(){
   	this._ped.obtenerPedido().subscribe(
   		res => {
   			if(res["mensaje"].terminar){
@@ -37,8 +37,28 @@ export class PedidoComponent implements OnInit {
   			}
   		},
   		error => {
-  			this.showSuccess("Alerta","Error de Internet");
+  			this.showError("Alerta","Error de Internet");
   		}
   	);
   }
+  agregarTicket(){
+  	this._ped.crearPedido().subscribe(
+  		res => {
+  			if(res["mensaje"].terminar){
+				localStorage.clear();
+				this._router.navigate(['/login']);
+  			}else{
+  				if(res["mensaje"].codigo == "success"){
+  					this.showSuccess("Alerta","Se agregó");
+  					this.obtenerTicket();
+  				}else{
+  					this.showError("Alerta","No se Encuentran Productos");
+  				}
+  			}
+  		},
+  		error => {
+  			this.showSuccess("Alerta","Error de Internet");
+  		}
+  	);
+  } 
 }
