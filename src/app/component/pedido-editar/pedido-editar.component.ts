@@ -19,7 +19,6 @@ export class PedidoEditarComponent implements OnInit {
   public total;
   constructor(private toastr: ToastrService, private _ped: PedidoService, private _router: Router, private route:ActivatedRoute) { 
   	this.route.params.forEach(x => this.id_pedido = x['id_pedido']);
-  	this.tabla_principal = false;
   	this.introduccion = false;
   }
   showSuccess(titulo,mensaje) {
@@ -71,8 +70,8 @@ export class PedidoEditarComponent implements OnInit {
   			}else{
   				if(res["mensaje"].buscados){
   					this.pedido_buscado = res["mensaje"].buscados;
-  					this.tabla_principal = true;
-  				}else{
+  					$('#tabla_precios').modal('show')
+  					}else{
   					this.showError("Alerta","No se Encuentran Productos");
   				}
   			}
@@ -91,8 +90,8 @@ export class PedidoEditarComponent implements OnInit {
   			}else{
   				if(res["mensaje"].buscados){
   					this.pedido_buscado = res["mensaje"].buscados;
-  					this.tabla_principal = true;
-  				}else{
+  					$('#tabla_precios').modal('show');
+  					}else{
   					this.showError("Alerta","No se Encuentran Productos");
   				}
   			}
@@ -112,7 +111,6 @@ export class PedidoEditarComponent implements OnInit {
   				if(res["mensaje"].codigo == 'success'){
   					this.obtenerPedido();
   					this.showSuccess("Alerta","Se agregó correctamente");
-  					this.tabla_principal = true;
   				}else{
   					this.showError("Alerta",res["mensaje"].msg);
   				}
@@ -230,4 +228,9 @@ export class PedidoEditarComponent implements OnInit {
   		}
   	); 
   }
+  cerrarModalPrecio(){
+  		$('#tabla_precios').modal('hide');
+  		this.pedido_buscado = [];
+  }
+
 }
