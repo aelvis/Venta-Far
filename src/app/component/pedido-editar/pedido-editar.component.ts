@@ -12,11 +12,9 @@ import { ToastrService } from 'ngx-toastr';
 export class PedidoEditarComponent implements OnInit {
   public pedido:any = [];
   public id_pedido;
-  public tabla_principal:boolean;
   public pedido_buscado;
   public introduccion:boolean;
   public usuario;
-  public total;
   constructor(private toastr: ToastrService, private _ped: PedidoService, private _router: Router, private route:ActivatedRoute) { 
   	this.route.params.forEach(x => this.id_pedido = x['id_pedido']);
   	this.introduccion = false;
@@ -169,7 +167,7 @@ export class PedidoEditarComponent implements OnInit {
   		}
   	); 
   }
-   actualizarPedidoUsuarioAlCarrito(dni_ruc){
+  actualizarPedidoUsuarioAlCarrito(dni_ruc){
   	this._ped.actualizarUsuarioTicket(dni_ruc,this.id_pedido).subscribe(
   		res => {
   			if(res["mensaje"].terminar){
