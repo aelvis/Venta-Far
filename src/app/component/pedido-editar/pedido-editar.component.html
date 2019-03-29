@@ -1,7 +1,7 @@
 <nav-component></nav-component>
 <br>
 <div class="container-fluid">
-			<div *ngIf="introduccion == false">
+			<div class="row" *ngIf="introduccion == false">
 			  <div class="loader" id="loader">Loading...</div>
 			</div>
 	<div class="row"  *ngIf="introduccion == true">
@@ -13,7 +13,7 @@
 		</div>
 		<div class="col-md-6">
 			<h1 class="h2 mb-3 font-weight-normal text-center" style="color: red"><u>Lista de Pedido</u> <span (click)="obtenerPedido()"> - Actualizar</span></h1>
-			<table class="table">
+			<table class="table" *ngIf="introduccion_tabla == true">
 			  <thead class="thead-dark">
 			    <tr>
 			      <th scope="col">#</th>
@@ -43,6 +43,9 @@
 			    </tr>
 			  </tbody>
 			</table>
+			<div *ngIf="introduccion_tabla == false">
+			  <div class="loader" id="loader">Loading...</div>
+			</div>
 		</div>
 		<div class="col-md-6">
 			<h1 class="h2 mb-3 font-weight-normal text-center" style="color: red"><u>Agregar Cliente</u> - <span data-toggle="modal" data-target="#manual_usuario">Manual</span></h1>
@@ -90,8 +93,8 @@
 <div class="modal fade" id="tabla_precios" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
   <div class="modal-dialog modal-xl" role="document">
     <div class="modal-content">
-      <div class="modal-body">
-      	<div class="row">
+      <div class="modal-body"  *ngIf="agregar_modal_carrito == true">
+      	<div class="row" *ngIf="buscar_nombre_modal == true">
 			<table class="table">
 			  <thead class="thead-dark">
 			    <tr>
@@ -117,7 +120,13 @@
 			  </tbody>
 			</table>
       	</div>
+      	<div class="row" *ngIf="buscar_nombre_modal == false">
+      		<div class="loader" id="loader">Loading...</div>
+      	</div>
       </div>
+      <div class="modal-body"  *ngIf="agregar_modal_carrito == false">
+      		<div class="loader" id="loader">Loading...</div>
+      	</div>
       <div class="modal-footer">
         <button class="btn btn-warning" (click)="cerrarModalPrecio()">Cerrar</button>
       </div>

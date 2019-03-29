@@ -16,12 +16,18 @@ export class PedidoEditarComponent implements OnInit {
   public introduccion:boolean;
   public usuario;
   public cargando_manual:boolean;
-  public agregarr_uc_buscar:boolean
+  public agregarr_uc_buscar:boolean;
+  public buscar_nombre_modal:boolean;
+  public agregar_modal_carrito:boolean;
+  public introduccion_tabla:boolean;
   constructor(private toastr: ToastrService, private _ped: PedidoService, private _router: Router, private route:ActivatedRoute) { 
   	this.route.params.forEach(x => this.id_pedido = x['id_pedido']);
   	this.introduccion = false;
     this.cargando_manual = true;
     this.agregarr_uc_buscar = true;
+    this.buscar_nombre_modal = true;
+    this.agregar_modal_carrito = true;
+    this.introduccion_tabla = true;
   }
   showSuccess(titulo,mensaje) {
     this.toastr.success(mensaje, titulo);
@@ -64,7 +70,7 @@ export class PedidoEditarComponent implements OnInit {
     return sum;
   }
   buscarNombre(nombre){
-    
+    this.buscar_nombre_modal = false;
   	this._ped.buscarPedidoNombre(nombre).subscribe(
   		res => {
   			if(res["mensaje"].terminar){
@@ -74,17 +80,21 @@ export class PedidoEditarComponent implements OnInit {
   				if(res["mensaje"].buscados){
   					this.pedido_buscado = res["mensaje"].buscados;
   					$('#tabla_precios').modal('show');
+            this.buscar_nombre_modal = true;
   					}else{
   					this.showError("Alerta","No se Encuentran Productos");
+            this.buscar_nombre_modal = true;
   				}
   			}
   		},
   		error => {
   			this.showError("Alerta","Error de Internet");
+        this.buscar_nombre_modal = true;
   		}
   	);
   }
   buscarCodigo(codigo){
+    this.buscar_nombre_modal = false;
   	this._ped.buscarPedidoCodigo(codigo).subscribe(
   		res => {
   			if(res["mensaje"].terminar){
@@ -94,17 +104,21 @@ export class PedidoEditarComponent implements OnInit {
   				if(res["mensaje"].buscados){
   					this.pedido_buscado = res["mensaje"].buscados;
   					$('#tabla_precios').modal('show');
+            this.buscar_nombre_modal = true;
   					}else{
   					this.showError("Alerta","No se Encuentran Productos");
+            this.buscar_nombre_modal = true;
   				}
   			}
   		},
   		error => {
   			this.showError("Alerta","Error de Internet");
+        this.buscar_nombre_modal = true;
   		}
   	);
   }
   agregarPedidoAlCarrito(producto_unidad_id,cantidad,representacion,precio,id_producto,id_producto_sucursal){
+    this.agregar_modal_carrito = false;
   	this._ped.agregarPedido(producto_unidad_id,cantidad,representacion,precio,id_producto,this.id_pedido,id_producto_sucursal).subscribe(
   		res => {
   			if(res["mensaje"].terminar){
@@ -114,18 +128,21 @@ export class PedidoEditarComponent implements OnInit {
   				if(res["mensaje"].codigo == 'success'){
   					this.obtenerPedido();
   					this.showSuccess("Alerta","Se agregó correctamente");
+            this.agregar_modal_carrito = true;
   				}else{
   					this.showError("Alerta",res["mensaje"].msg);
+            this.agregar_modal_carrito = true;
   				}
   			}
   		},
   		error => {
   			this.showError("Alerta","Error de Internet");
+        this.agregar_modal_carrito = true;
   		}
   	);
   }
   eliminarPedidoCarritoCompras(id_pedido){
-  	this.introduccion = false;
+  	this.introduccion_tabla = false;
   	this._ped.eliminarPedidoTick(id_pedido).subscribe(
   		res => {
   			if(res["mensaje"].terminar){
@@ -135,21 +152,21 @@ export class PedidoEditarComponent implements OnInit {
   				if(res["mensaje"].codigo == 'success'){
   					this.obtenerPedido();
   					this.showSuccess("Alerta","Se Actualizó correctamente");
-  					this.introduccion = true;
+  					this.introduccion_tabla = true;
   				}else{
   					this.showError("Alerta",res["mensaje"].msg);
-  					this.introduccion = true;
+  					this.introduccion_tabla = true;
   				}
   			}
   		},
   		error => {
   			this.showError("Alerta","Error de Internet");
-  			this.introduccion = true;
+  			this.introduccion_tabla = true;
   		}
   	); 	
   }
   actualizarPedidoAlCarrito(id_pedido,cantidad,precio,representacion,producto_sucursal){
-  	this.introduccion = false;
+  	this.introduccion_tabla = false;
   	this._ped.actualizarPedidoTick(id_pedido,cantidad,precio,representacion,producto_sucursal).subscribe(
   		res => {
   			if(res["mensaje"].terminar){
@@ -159,20 +176,21 @@ export class PedidoEditarComponent implements OnInit {
   				if(res["mensaje"].codigo == 'success'){
   					this.obtenerPedido();
   					this.showSuccess("Alerta","Se Actualizó correctamente");
-  					this.introduccion = true;
+  					this.introduccion_tabla = true;
   				}else{
   					this.showError("Alerta",res["mensaje"].msg);
-  					this.introduccion = true;
+  					this.introduccion_tabla = true;
   				}
   			}
   		},
   		error => {
   			this.showError("Alerta","Error de Internet");
-  			this.introduccion = true;
+  			this.introduccion_tabla = true;
   		}
   	); 
   }
   actualizarPedidoUsuarioAlCarrito(dni_ruc){
+     this.agregarr_uc_buscar = false;
   	this._ped.actualizarUsuarioTicket(dni_ruc,this.id_pedido).subscribe(
   		res => {
   			if(res["mensaje"].terminar){
@@ -182,14 +200,17 @@ export class PedidoEditarComponent implements OnInit {
   				if(res["mensaje"].codigo == 'success'){
   					this.obtenerPedido();
   					this.showSuccess("Alerta","Se Actualizó correctamente");
+            this.agregarr_uc_buscar = true;
   				}else{
   					this.showError("Alerta",res["mensaje"].msg);
+            this.agregarr_uc_buscar = true;
             
   				}
   			}
   		},
   		error => {
   			this.showError("Alerta","Error de Internet");
+        this.agregarr_uc_buscar = true;
   		}
   	); 
   }
