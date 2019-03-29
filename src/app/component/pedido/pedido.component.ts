@@ -10,6 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class PedidoComponent implements OnInit {
   public ticket;
+  public inicio:boolean;
   constructor(private toastr: ToastrService, private _ped: PedidoService, private _router: Router){ 
 
   }
@@ -23,6 +24,7 @@ export class PedidoComponent implements OnInit {
     this.toastr.error(mensaje, titulo);
   }
   obtenerTicket(){
+    this.inicio = false;
   	this._ped.obtenerPedido().subscribe(
   		res => {
   			if(res["mensaje"].terminar){
@@ -31,17 +33,21 @@ export class PedidoComponent implements OnInit {
   			}else{
   				if(res["mensaje"].ticket){
   					this.ticket = res["mensaje"].ticket;
+            this.inicio = true;
   				}else{
   					this.showError("Alerta","No se Encuentran Productos");
+            this.inicio = true;
   				}
   			}
   		},
   		error => {
   			this.showError("Alerta","Error de Internet");
+        this.inicio = true;
   		}
   	);
   }
   agregarTicket(){
+    this.inicio = false;
   	this._ped.crearPedido().subscribe(
   		res => {
   			if(res["mensaje"].terminar){
