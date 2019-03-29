@@ -140,4 +140,13 @@ export class PedidoService{
 		});
 		return this._http.post(this.url+'/pedidos/pedido/agregarDatosManual', params, {headers:headers});
 	}
+	guardarSinDatosUsuarioServicie(id_ticket){
+		let params = new HttpParams();
+			params = params.append('id_ticket', id_ticket);
+		let headers = new HttpHeaders({
+			'Content-Type':'application/json',
+			'Authorization': this._usuSer.getToken()
+		});
+		return this._http.post(this.url+'/pedidos/pedido/guardarSinDatosUsuario', params, {headers:headers});
+	}
 }

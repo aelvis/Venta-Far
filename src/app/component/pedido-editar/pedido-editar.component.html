@@ -5,7 +5,7 @@
 			  <div class="loader" id="loader">Loading...</div>
 			</div>
 	<div class="row"  *ngIf="introduccion == true">
-		<div class="col-md-12" style="display: flex;justify-content: center;">
+		<div class="col-md-12" style="display: flex;justify-content: center;" *ngIf="usuario?.boleta_factura != null && pedido.length > 0">
 			<button class="btn btn-danger btn-block font-weight-normal text-center" style="color: white;" (click)="mandarCaja()">FINALIZAR VENTA</button><br><br><br>
 		</div>
 		<div class="col-md-12">
@@ -48,7 +48,7 @@
 			</div>
 		</div>
 		<div class="col-md-6">
-			<h1 class="h2 mb-3 font-weight-normal text-center" style="color: red"><u>Agregar Cliente</u> - <span data-toggle="modal" data-target="#manual_usuario">Manual</span></h1>
+			<h1 class="h2 mb-3 font-weight-normal text-center" style="color: red"><u>Agregar Cliente</u> - <span data-toggle="modal" data-target="#manual_usuario">Manual</span> -  <span (click)="guardarSinDatosUsuarioControllers()">Sin Datos</span></h1>
 			<div class="row" *ngIf="agregarr_uc_buscar == true">
 				<div class="col-md-6">
 				  <div class="form-group">

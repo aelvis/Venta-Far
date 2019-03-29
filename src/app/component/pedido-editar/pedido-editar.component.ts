@@ -191,7 +191,7 @@ export class PedidoEditarComponent implements OnInit {
   }
   actualizarPedidoUsuarioAlCarrito(dni_ruc){
      this.agregarr_uc_buscar = false;
-  	this._ped.actualizarUsuarioTicket(dni_ruc,this.id_pedido).subscribe(
+  	  this._ped.actualizarUsuarioTicket(dni_ruc,this.id_pedido).subscribe(
   		res => {
   			if(res["mensaje"].terminar){
 				localStorage.clear();
@@ -283,6 +283,30 @@ export class PedidoEditarComponent implements OnInit {
       error => {
         this.showError("Alerta","Error de Internet");
         this.cargando_manual = true;
+      }
+    ); 
+  }
+   guardarSinDatosUsuarioControllers(){
+    this.agregarr_uc_buscar = false;
+    this._ped.guardarSinDatosUsuarioServicie(this.id_pedido).subscribe(
+      res => {
+        if(res["mensaje"].terminar){
+        localStorage.clear();
+        this._router.navigate(['/login']);
+        }else{
+          if(res["mensaje"].codigo == 'success'){
+            this.obtenerPedido();
+            this.showSuccess("Alerta","Se Actualizó");
+            this.agregarr_uc_buscar = true;
+          }else{
+            this.showError("Alerta",res["mensaje"].msg);
+            this.agregarr_uc_buscar = true;
+          }
+        }
+      },
+      error => {
+        this.showError("Alerta","Error de Internet");
+        this.agregarr_uc_buscar = true;
       }
     ); 
   }
