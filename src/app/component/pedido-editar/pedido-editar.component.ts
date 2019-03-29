@@ -15,9 +15,13 @@ export class PedidoEditarComponent implements OnInit {
   public pedido_buscado;
   public introduccion:boolean;
   public usuario;
+  public cargando_manual:boolean;
+  public agregarr_uc_buscar:boolean
   constructor(private toastr: ToastrService, private _ped: PedidoService, private _router: Router, private route:ActivatedRoute) { 
   	this.route.params.forEach(x => this.id_pedido = x['id_pedido']);
   	this.introduccion = false;
+    this.cargando_manual = true;
+    this.agregarr_uc_buscar = true;
   }
   showSuccess(titulo,mensaje) {
     this.toastr.success(mensaje, titulo);
@@ -60,6 +64,7 @@ export class PedidoEditarComponent implements OnInit {
     return sum;
   }
   buscarNombre(nombre){
+    
   	this._ped.buscarPedidoNombre(nombre).subscribe(
   		res => {
   			if(res["mensaje"].terminar){
@@ -68,7 +73,7 @@ export class PedidoEditarComponent implements OnInit {
   			}else{
   				if(res["mensaje"].buscados){
   					this.pedido_buscado = res["mensaje"].buscados;
-  					$('#tabla_precios').modal('show')
+  					$('#tabla_precios').modal('show');
   					}else{
   					this.showError("Alerta","No se Encuentran Productos");
   				}
@@ -179,6 +184,7 @@ export class PedidoEditarComponent implements OnInit {
   					this.showSuccess("Alerta","Se Actualizó correctamente");
   				}else{
   					this.showError("Alerta",res["mensaje"].msg);
+            
   				}
   			}
   		},
@@ -187,8 +193,9 @@ export class PedidoEditarComponent implements OnInit {
   		}
   	); 
   }
-  actualizarPedidoUsuarioAlCarritoDireccion(direccion){
-  	this._ped.actualizarUsuarioTicketDireccion(direccion,this.id_pedido).subscribe(
+  actualizarPedidoUsuarioAlCarritoDireccion(direccion,dni_ruc,comercial_otro){
+    this.agregarr_uc_buscar = false;
+  	this._ped.actualizarUsuarioTicketDireccion(direccion,this.id_pedido,dni_ruc,comercial_otro).subscribe(
   		res => {
   			if(res["mensaje"].terminar){
 				localStorage.clear();
@@ -196,14 +203,17 @@ export class PedidoEditarComponent implements OnInit {
   			}else{
   				if(res["mensaje"].codigo == 'success'){
   					this.obtenerPedido();
-  					this.showSuccess("Alerta","Se Actualizó la Dirección correctamente");
+  					this.showSuccess("Alerta","Se Actualizó");
+            this.agregarr_uc_buscar = true;
   				}else{
   					this.showError("Alerta",res["mensaje"].msg);
+            this.agregarr_uc_buscar = true;
   				}
   			}
   		},
   		error => {
   			this.showError("Alerta","Error de Internet");
+        this.agregarr_uc_buscar = true;
   		}
   	); 
   }
@@ -230,5 +240,29 @@ export class PedidoEditarComponent implements OnInit {
   		$('#tabla_precios').modal('hide');
   		this.pedido_buscado = [];
   }
-
+  agregarDatosManualController(direccion,nombre,dni_ruc){
+    this.cargando_manual = false;
+    this._ped.agregarDatosManualService(this.id_pedido,direccion,nombre,dni_ruc).subscribe(
+      res => {
+        if(res["mensaje"].terminar){
+        localStorage.clear();
+        this._router.navigate(['/login']);
+        }else{
+          if(res["mensaje"].codigo == 'success'){
+            this.obtenerPedido();
+            this.showSuccess("Alerta","Se Actualizó");
+            $('#manual_usuario').modal('hide');
+            this.cargando_manual = false;
+          }else{
+            this.showError("Alerta",res["mensaje"].msg);
+            this.cargando_manual = true;
+          }
+        }
+      },
+      error => {
+        this.showError("Alerta","Error de Internet");
+        this.cargando_manual = true;
+      }
+    ); 
+  }
 }

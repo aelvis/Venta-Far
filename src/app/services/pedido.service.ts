@@ -107,10 +107,12 @@ export class PedidoService{
 		});
 		return this._http.post(this.url+'/pedidos/pedido/agregarUsuarioTicket', params, {headers:headers});
 	}
-	actualizarUsuarioTicketDireccion(direccion,id_ticket){
+	actualizarUsuarioTicketDireccion(direccion,id_ticket,dni_ruc,nombre){
 		let params = new HttpParams();
 			params = params.append('direccion', direccion);
 			params = params.append('id_ticket', id_ticket);
+			params = params.append('nombre', nombre);
+			params = params.append('dni_ruc', dni_ruc);
 		let headers = new HttpHeaders({
 			'Content-Type':'application/json',
 			'Authorization': this._usuSer.getToken()
@@ -125,5 +127,17 @@ export class PedidoService{
 			'Authorization': this._usuSer.getToken()
 		});
 		return this._http.post(this.url+'/pedidos/pedido/mandarCaja', params, {headers:headers});
+	}
+	agregarDatosManualService(id_ticket,direccion,nombre,dni_ruc){
+		let params = new HttpParams();
+			params = params.append('direccion', direccion);
+			params = params.append('id_ticket', id_ticket);
+			params = params.append('nombre', nombre);
+			params = params.append('dni_ruc', dni_ruc);
+		let headers = new HttpHeaders({
+			'Content-Type':'application/json',
+			'Authorization': this._usuSer.getToken()
+		});
+		return this._http.post(this.url+'/pedidos/pedido/agregarDatosManual', params, {headers:headers});
 	}
 }

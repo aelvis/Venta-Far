@@ -45,8 +45,8 @@
 			</table>
 		</div>
 		<div class="col-md-6">
-			<h1 class="h2 mb-3 font-weight-normal text-center" style="color: red"><u>Agregar Cliente</u> - <span>Manual</span></h1>
-			<div class="row">
+			<h1 class="h2 mb-3 font-weight-normal text-center" style="color: red"><u>Agregar Cliente</u> - <span data-toggle="modal" data-target="#manual_usuario">Manual</span></h1>
+			<div class="row" *ngIf="agregarr_uc_buscar == true">
 				<div class="col-md-6">
 				  <div class="form-group">
 				    <label for="inputPassword2">DNI o RUC</label>
@@ -56,15 +56,18 @@
 				<div class="col-md-6">
 					<div class="form-group">
 					    <label for="inputPassword2">NOMBRE O NOMBRE COMERCIAL</label>
-					    <input type="text" value="{{usuario?.nombre}}" class="form-control" disabled>
+					    <input type="text" value="{{usuario?.nombre}}" class="form-control" #comercial_otro>
 					</div>
 				</div>
 				<div class="col-md-12">
 					<div class="form-group">
 					    <label for="inputPassword2">DIRECCIÓN</label>
-					    <input type="text" value="{{usuario?.direccion}}" class="form-control" #direccion_actualizar (keydown.enter)="actualizarPedidoUsuarioAlCarritoDireccion(direccion_actualizar.value)">
+					    <input type="text" value="{{usuario?.direccion}}" class="form-control" #direccion_actualizar (keydown.enter)="actualizarPedidoUsuarioAlCarritoDireccion(direccion_actualizar.value,dni_ruc.value,comercial_otro.value)">
 					</div>
 				</div>
+			</div>
+			<div class="row" *ngIf="agregarr_uc_buscar == false">
+				<div class="loader" id="loader">Loading...</div>
 			</div>
 			<h1 class="h2 mb-3 font-weight-normal text-center" style="color: red"><u>Buscar Producto</u></h1>
 			<div class="row">
@@ -117,6 +120,44 @@
       </div>
       <div class="modal-footer">
         <button class="btn btn-warning" (click)="cerrarModalPrecio()">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="manual_usuario" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+      	<div class="row" *ngIf="cargando_manual == true">
+				<div class="col-md-6">
+				  <div class="form-group">
+				    <label for="inputPassword2">DNI o RUC</label>
+				    <input type="text" class="form-control" #dni_ruc>
+				  </div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+					    <label for="inputPassword2">NOMBRE O NOMBRE COMERCIAL</label>
+					    <input type="text" class="form-control" #comercial>
+					</div>
+				</div>
+				<div class="col-md-12">
+					<div class="form-group">
+					    <label for="inputPassword2">DIRECCIÓN</label>
+					    <input type="text" class="form-control" #direccion_actualizar>
+					</div>
+				</div>
+				<div class="col-md-12">
+					<button class="btn btn-danger btn-block" (click)="agregarDatosManualController(direccion_actualizar.value,comercial.value,dni_ruc.value)">Guardar</button>
+				</div>
+				
+      	</div>
+      	<div class="row" *ngIf="cargando_manual == false">
+      		<div class="loader" id="loader">Loading...</div>
+      	</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
