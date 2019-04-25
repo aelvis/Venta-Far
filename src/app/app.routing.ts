@@ -11,7 +11,7 @@ const appRoutes: Routes = [
 	{path: '', component: LoginComponent},
 	{path: '', redirectTo: 'login', pathMatch: 'full'},
 	{path: 'login', component: LoginComponent},
-	{path: 'inicio', component: InicioComponent, canActivate: [AdminGuard]},
+	{path: 'inicio', component: PedidoComponent, canActivate: [AdminGuard]},
 	{path: 'pedido', component: PedidoComponent, canActivate: [AdminGuard]},
 	{path: 'pedido-editar/:id_pedido', component: PedidoEditarComponent, canActivate: [AdminGuard]},
 	{path: '**', component: LoginComponent},
